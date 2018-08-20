@@ -81,11 +81,12 @@ cd C:\Users\User1\Documents\GitHub\arrhythmia
 [X1,Y1,T1,AUC1,OPTROCPT1] = perfcurve(tMulti,outMulti,1);
 figure,
 plot(Y1,X1);
-[X2,Y2,T2,AUC2,OPTROCPT2] = perfcurve(t2,out2,2);
-hold on, plot(X2,Y2);
+% [X2,Y2,T2,AUC2,OPTROCPT2] = perfcurve(t2,pred,2);
+% hold on, plot(X2,Y2);
+hold on, plot([0;1-spec;1],[0;sens;1]);
 hold on, plot(0:.1:1, 0:.1:1,'--k','HandleVisibility','off');
 % legend(['ROC (AUC: ' num2str(AUC1) ').' char(10) ''], 'location', 'southeast'); %#ok<CHARTEN>
-legend(['11-Class ROC (AUC: ' num2str(1-AUC1) ').'], ['2-Class ROC   (AUC: ' num2str(AUC2) ').'], 'location', 'southeast'); 
+legend(['11-Class ROC (AUC: ' num2str(1-AUC1) ')'], ['2-Class ROC   (AUC: ' num2str(trapz([0;1-spec;1],[0;sens;1])) ')'], 'location', 'southeast'); 
 ylabel('True Positive Rate (Sensitivity')
 xlabel('False Positive Rate (1-Specificity)')
 set(gca,'box','off')
@@ -97,7 +98,7 @@ saveas(gcf, 'ROCboth.png')
 % sensitivity = tp/(tp+fn)
 % sensitivity2 = tp/(totalSP)
 
-CP2 = classperf(t2, out2, 'Positive', [2], 'Negative', [1]); %#ok<*NBRAK>
+CP2 = classperf(t2, pred, 'Positive', [2], 'Negative', [1]); %#ok<*NBRAK>
 % pred=kfoldPredict(RUSBoosted);
 % acc = length(find(pred==t2))/length(t2);
 % [X2,Y2,T2,AUC2,OPTROCPT2] = perfcurve(t2,pred,2);
